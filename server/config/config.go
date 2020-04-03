@@ -36,7 +36,8 @@ type BaseConfig struct {
 
 // Config defines the server's top level configuration
 type Config struct {
-	BaseConfig `mapstructure:",squash"`
+	BaseConfig    `mapstructure:",squash"`
+	BackendConfig *BackendConfig `mapstructure:"backend"`
 }
 
 // SetMinGasPrices sets the validator's minimum gas prices.
@@ -69,8 +70,9 @@ func (c *Config) GetMinGasPrices() sdk.DecCoins {
 // DefaultConfig returns server's default configuration.
 func DefaultConfig() *Config {
 	return &Config{
-		BaseConfig{
+		BaseConfig: BaseConfig{
 			MinGasPrices: defaultMinGasPrices,
 		},
+		BackendConfig: DefaultBackendConfig(),
 	}
 }

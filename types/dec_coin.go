@@ -43,20 +43,6 @@ func NewDecCoinFromDec(denom string, amount Dec) DecCoin {
 	}
 }
 
-func NewDecCoinFromCoin(coin Coin) DecCoin {
-	if coin.Amount.LT(ZeroInt()) {
-		panic(fmt.Sprintf("negative decimal coin amount: %v\n", coin.Amount))
-	}
-	if strings.ToLower(coin.Denom) != coin.Denom {
-		panic(fmt.Sprintf("denom cannot contain upper case characters: %s\n", coin.Denom))
-	}
-
-	return DecCoin{
-		Denom:  coin.Denom,
-		Amount: coin.Amount.ToDec(),
-	}
-}
-
 // NewInt64DecCoin returns a new DecCoin with a denomination and amount. It will
 // panic if the amount is negative or denom is invalid.
 func NewInt64DecCoin(denom string, amount int64) DecCoin {
@@ -146,14 +132,6 @@ func (coin DecCoin) String() string {
 
 // coins with decimal
 type DecCoins []DecCoin
-
-func NewDecCoins(coins Coins) DecCoins {
-	dcs := make(DecCoins, len(coins))
-	for i, coin := range coins {
-		dcs[i] = NewDecCoinFromCoin(coin)
-	}
-	return dcs
-}
 
 // String implements the Stringer interface for DecCoins. It returns a
 // human-readable representation of decimal coins.
